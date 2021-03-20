@@ -21,7 +21,9 @@ namespace api.testing.DataBase
 
         public static void DeleteAll() => DB.Execute($"DELETE FROM {table}");
 
-        public static bool Exists(string name) => DB.GetRow($"SELECT Name FROM {table} WHERE Name = '{name}'").Count > 0;
+        public static void Delete(string name) => DB.Execute($"DELETE FROM {table} WHERE Name = '{name.Trim()}'");
+
+        public static bool Exists(string name) => DB.GetRow($"SELECT Name FROM {table} WHERE Name = '{name.Trim()}'").Count > 0;
 
         public static void Add(Contact contact) =>
             DB.Execute($"INSERT INTO {table} ({columns}) VALUES ('{contact.Name.Trim()}', '{contact.Phone.Trim()}', '{contact.Email.Trim()}')");
