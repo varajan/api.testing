@@ -2,9 +2,97 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>API testing</title>
+    <title>Contacts</title>
 </head>
 <body>
-    Hello world
+    <button onclick="add()">Add new</button>
+    <button onclick="clearContacts()">Delete all</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody />
+    </table>
 </body>
 </html>
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script>
+    function loadContacts() {
+        $.ajax({
+            type: 'GET',
+            url: 'contacts/all',
+            dataType: 'json',
+            success: function (response) {
+                clearTable();
+
+                response.forEach(function (contact) {
+                    appendContact(contact);
+                });
+            }
+        });
+    }
+
+    function add() {
+        var name = prompt('Name');
+        var phone = prompt('Phone');
+        var email = prompt('Email');
+        var contact = { 'Name': name, 'Phone': phone, 'Email': email };
+
+        $.ajax({
+            type: 'POST',
+            url: 'contacts/add',
+            data: JSON.stringify(contact),
+            dataType: 'json',
+            headers: { 
+                'Accept': 'application/json',
+                'Content-Type': 'application/json' 
+            },
+            success: function (response) {
+                loadContacts();
+            }
+        });
+    }
+
+    function appendContact(contact) {
+        var row = document.createElement('tr');
+        var nameCell = document.createElement('td');
+        var phoneCell = document.createElement('td');
+        var emailCell = document.createElement('td');
+
+        nameCell.textContent = contact.name;
+        phoneCell.textContent = contact.phone;
+        emailCell.textContent = contact.email;
+
+        row.appendChild(nameCell);
+        row.appendChild(phoneCell);
+        row.appendChild(emailCell);
+
+        document.querySelector("table tbody").appendChild(row);
+    }
+
+    function clearTable() {
+        document.querySelector("table tbody").innerHTML = '';
+    }
+
+    function clearContacts() {
+        $.ajax({
+            type: 'POST',
+            url: 'contacts/deleteAll',
+            dataType: 'json',
+            success: function (response) {
+                clearTable();
+            }
+        });
+    }
+
+    window.onload = function() {
+        loadContacts();
+    }
+</script>
