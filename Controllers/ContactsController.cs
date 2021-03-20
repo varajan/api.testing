@@ -16,6 +16,14 @@ namespace api.testing.Controllers
         [Route("all")]
         public IEnumerable<Contact> Get() => Contacts.Items;
 
+        [HttpGet]
+        [Route("filter")]
+        public IEnumerable<Contact> Filter(string filter) =>
+            Contacts.Items.Where(i =>
+                   i.Name.ContainsIgnoreCase(filter)
+                || i.Email.ContainsIgnoreCase(filter)
+                || i.Phone.Replace("-", "").Contains(filter.Replace("-", "")));
+
         [HttpPost]
         [Route("deleteAll")]
         public ActionResult DeleteAll()

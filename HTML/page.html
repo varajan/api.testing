@@ -5,8 +5,11 @@
     <title>Contacts</title>
 </head>
 <body>
+    <input oninput="filter()" placeholder="filter" />
     <button onclick="add()">Add new</button>
     <button onclick="clearContacts()">Delete all</button>
+    <br>
+    <br>
     <table>
         <thead>
             <tr>
@@ -24,6 +27,24 @@
 
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
+    function filter() {
+        var value = document.querySelector('input').value;
+
+        $.ajax({
+            type: 'GET',
+            url: 'contacts/filter',
+            data: {'filter': value},
+            dataType: 'json',
+            success: function (response) {
+                clearTable();
+
+                response.forEach(function (contact) {
+                    appendContact(contact);
+                });
+            }
+        });
+    }
+
     function loadContacts() {
         $.ajax({
             type: 'GET',
@@ -153,8 +174,15 @@
             type: 'POST',
             url: 'contacts/deleteAll',
             dataType: 'json',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
             success: function (response) {
                 clearTable();
+            },
+            error: function(response) {
+                alert(response.responseText);
             }
         });
     }

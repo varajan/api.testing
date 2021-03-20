@@ -22,8 +22,8 @@ namespace api.testing.Extensions
             return line.Substring(start);
         }
 
-        public static bool ContainsIgnoreCase(this string line, string word) => line.IndexOf(word, StringComparison.OrdinalIgnoreCase) >= 0;
+        public static bool ContainsIgnoreCase(this string line, string word) => line.IndexOf(word ?? string.Empty, StringComparison.OrdinalIgnoreCase) >= 0;
 
-        public static bool IsValidEmail(this string text) => new System.Net.Mail.MailAddress(text).Address == text;
+        public static bool IsValidEmail(this string email) => new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").IsMatch(email);
     }
 }
