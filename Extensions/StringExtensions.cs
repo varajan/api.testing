@@ -22,5 +22,7 @@ namespace api.testing.Extensions
         }
 
         public static bool ContainsIgnoreCase(this string line, string word) => line.IndexOf(word, StringComparison.OrdinalIgnoreCase) >= 0;
+
+        public static bool IsValidEmail(this string text) => new System.Net.Mail.MailAddress(text).Address == text;
     }
 }

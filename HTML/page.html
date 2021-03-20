@@ -56,6 +56,10 @@
             },
             success: function (response) {
                 loadContacts();
+
+            },
+            error: function(response) {
+                alert(response.responseText);
             }
         });
     }
