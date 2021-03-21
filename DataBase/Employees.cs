@@ -8,7 +8,7 @@ namespace api.testing.DataBase
     public static class Employees
     {
         private const string Columns = "ID, Name, Role, Salary";
-        private const string Table = "Films";
+        private const string Table = "Employees";
 
         static Employees() => DB.Execute($"CREATE TABLE IF NOT EXISTS {Table} (ID Number, Name Text, Role Number, Salary Number); ");
 
@@ -22,8 +22,8 @@ namespace api.testing.DataBase
             DB.Execute($"INSERT INTO {Table} ({Columns}) VALUES ({id}, '{employee.Name.Trim()}', {(int) employee.Role}, {employee.Salary})");
         }
 
-        public static bool Exists(int id) => DB.GetRows($"SELECT ID FROM {Table} WHERE ID = {id}").Any();
-        public static bool Exists(string name) => DB.GetRows($"SELECT ID FROM {Table} WHERE Name = '{name.Trim()}'").Any();
+        public static bool Exists(int id) => Items.Any(x => x.ID == id);
+        public static bool Exists(string name) => Items.Any(x => x.Name == name);
 
 
         public static Employee Get(int id) => DB.GetRow($"SELECT {Columns} FROM {Table} WHERE ID = {id}").GetEmployee();

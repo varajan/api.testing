@@ -30,7 +30,8 @@ namespace api.testing.DataBase
                 cmd.Connection.Open();
                 cmd.ExecuteNonQuery();
             }
-            catch { /* ignore */ }
+            catch (Exception e) { throw e; }
+            //c atch { /* ignore */ }
         }
 
         public static string GetValue(string sql)
@@ -45,7 +46,7 @@ namespace api.testing.DataBase
                 cmd.Connection.Open();
                 result = (cmd.ExecuteScalar() ?? string.Empty).ToString();
             }
-            catch { /* ignore */ }
+            catch (Exception e) { throw e; }
 
             return result;
         }
@@ -66,7 +67,7 @@ namespace api.testing.DataBase
                     result.Add(reader[Columns(sql).First()].ToString());
                 }
             }
-            catch { /* ignore */ }
+            catch (Exception e) { throw e; }
 
             return result;
         }
@@ -89,7 +90,7 @@ namespace api.testing.DataBase
                     result.Add(toLoverCase ? values.Select(x => x.ToLower()).ToList() : values);
                 }
             }
-            catch { /* ignore */ }
+            catch (Exception e) { throw e; }
 
             return result;
         }
@@ -110,7 +111,7 @@ namespace api.testing.DataBase
                     result = Columns(sql).Select(column => reader[column.Trim()].ToString()).ToList();
                 }
             }
-            catch { /* ignore */ }
+            catch (Exception e) { throw e; }
 
             return result;
         }

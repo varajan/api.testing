@@ -10,6 +10,13 @@
     public class FilmFullData : Film
     {
         public decimal Budget { get; set; }
-        public Employee[] Stuff { get; set; }
+        public Stuff[] Stuff { get; set; }
+    }
+
+    public class Stuff
+    {
+        public string Role { get; set; }
+        public string Name { get; set; }
+        public decimal Costs { get; set; }
     }
 }

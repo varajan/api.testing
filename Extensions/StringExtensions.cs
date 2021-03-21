@@ -29,7 +29,28 @@ namespace api.testing.Extensions
 
         public static T ParseEnum<T>(this string value) => (T) Enum.Parse(typeof(T), value, true);
 
-        public static int ToInt(this string number) => int.Parse(number);
-        public static decimal ToDecimal(this string number) => decimal.Parse(number, CultureInfo.InvariantCulture);
+        public static int ToInt(this string number)
+        {
+            try
+            {
+                return int.Parse(number);
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        public static decimal ToDecimal(this string number)
+        {
+            try
+            {
+                return decimal.Parse(number, CultureInfo.InvariantCulture);
+            }
+            catch
+            {
+                return 0;
+            }
+        }
     }
 }

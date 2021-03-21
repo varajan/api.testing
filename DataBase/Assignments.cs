@@ -8,7 +8,7 @@ namespace api.testing.DataBase
     public class Assignments
     {
         private const string Columns = "Film, Employee";
-        private const string Table = "Films";
+        private const string Table = "Assignments";
 
         static Assignments() => DB.Execute($"CREATE TABLE IF NOT EXISTS {Table} (Film Number, Employee Number); ");
 

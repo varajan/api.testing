@@ -49,6 +49,17 @@
             </summary>
             <response code="409">Already exists</response>
         </member>
+        <member name="M:api.testing.Controllers.EmployeesController.Delete">
+            <summary>
+            Delete all employees
+            </summary>
+        </member>
+        <member name="M:api.testing.Controllers.EmployeesController.Delete(api.testing.Models.Employee)">
+            <summary>
+            Delete employee
+            </summary>
+            <response code="404">Employee not found</response>
+        </member>
         <member name="M:api.testing.Controllers.EmployeesController.GetAll">
             <summary>
             Get all available employees
@@ -79,6 +90,11 @@
             Add new film
             </summary>
             <response code="409">Already exists</response>
+        </member>
+        <member name="M:api.testing.Controllers.FilmsController.Delete">
+            <summary>
+            Delete all films
+            </summary>
         </member>
         <member name="M:api.testing.Controllers.FilmsController.GetAll">
             <summary>

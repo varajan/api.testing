@@ -83,6 +83,8 @@ namespace api.testing.Controllers
             if (!Films.Exists(model.EmployeeId)) return NotFound($"Employee with {model.EmployeeId} not found");
             if (Assignments.Exists(model)) return Conflict("Assignment already exists");
 
+            Assignments.Add(model);
+
             return Ok("Ok");
         }
 
@@ -105,8 +107,12 @@ namespace api.testing.Controllers
                     ID = film.ID,
                     Title = film.Title,
                     Year = film.Year,
-                    Budget = Assignments.ByFilm(film.ID).Select(x => Employees.Get(x.EmployeeId)).Sum(x => x.Salary),
-                    Stuff = Assignments.ByFilm(film.ID).Select(x => Employees.Get(x.EmployeeId)).ToArray()
+                    Budget = Assignments.ByFilm(film.ID)
+                        .Select(x => Employees.Get(x.EmployeeId))
+                        .Sum(x => x.Salary),
+                    Stuff = Assignments.ByFilm(film.ID)
+                        .Select(x => Employees.Get(x.EmployeeId))
+                        .Select(x => new Stuff { Role = x.Role.ToString(), Name = x.Name, Costs = x.Salary }).ToArray()
                 }).ToArray();
 
             var result = new FilmsFullReport

@@ -37,6 +37,22 @@ namespace api.testing.Controllers
         }
 
         /// <summary>
+        /// Delete employee
+        /// </summary>
+        /// <response code="404">Employee not found</response>
+        [HttpDelete]
+        [Route("delete")]
+        public ActionResult Delete(Employee employee)
+        {
+            if (!Employees.Exists(employee.ID)) return NotFound("Employee not fond");
+            if (!Employees.Exists(employee.Name)) return NotFound("Employee not fond");
+
+            Employees.Delete(employee);
+
+            return Ok("Ok");
+        }
+
+        /// <summary>
         /// Get all available employees
         /// </summary>
         /// <returns></returns>
@@ -85,6 +101,8 @@ namespace api.testing.Controllers
             if (!Films.Exists(model.FilmId)) return NotFound($"Film with {model.FilmId} not found");
             if (!Films.Exists(model.EmployeeId)) return NotFound($"Employee with {model.EmployeeId} not found");
             if (Assignments.Exists(model)) return Conflict("Assignment already exists");
+
+            Assignments.Add(model);
 
             return Ok("Ok");
         }
