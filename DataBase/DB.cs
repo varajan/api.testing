@@ -50,7 +50,7 @@ namespace api.testing.DataBase
             return result;
         }
 
-        public static List<string> GetColumn(string sql, bool ignoreErrors = false)
+        public static List<string> GetColumn(string sql)
         {
             var result = new List<string>();
 

@@ -24,9 +24,7 @@
             <summary>
             Update contact details
             </summary>
-            <response code="400">Name length is not in range: 3-30 symbols</response>
-            <response code="400">Invalid email address</response>
-            <response code="400">Invalid phone number</response>
+            <response code="400">Name length is not in range: 3-30 symbols, Invalid email address, Invalid phone number</response>
             <response code="404">Contact not found</response>
             <response code="409">Contact with new name already exists</response>
         </member>
@@ -41,11 +39,76 @@
             <summary>
             Add contact
             </summary>
-            <response code="400">Name length is not in range: 3-30 symbols</response>
-            <response code="400">Invalid email address</response>
-            <response code="400">Invalid phone number</response>
+            <response code="400">Name length is not in range: 3-30 symbols, Invalid email address, Invalid phone number</response>
             <response code="404">Contact not found</response>
             <response code="409">Contact with provided name already exists</response>
+        </member>
+        <member name="M:api.testing.Controllers.EmployeesController.Add(api.testing.Models.Employee)">
+            <summary>
+            Add new employee
+            </summary>
+            <response code="409">Already exists</response>
+        </member>
+        <member name="M:api.testing.Controllers.EmployeesController.GetAll">
+            <summary>
+            Get all available employees
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:api.testing.Controllers.EmployeesController.Get(System.Int32)">
+            <summary>
+            Get employee by id
+            </summary>
+            <response code="404">Employee not found</response>
+        </member>
+        <member name="M:api.testing.Controllers.EmployeesController.Find(System.String)">
+            <summary>
+            Find employee by name
+            </summary>
+            <response code="404">Employee not found</response>
+        </member>
+        <member name="M:api.testing.Controllers.EmployeesController.Assign(api.testing.Models.Assignment)">
+            <summary>
+            Assign employee to film
+            </summary>
+            <response code="404">Employee not found, Film not found</response>
+            <response code="409">Assignment already exists</response>
+        </member>
+        <member name="M:api.testing.Controllers.FilmsController.Add(api.testing.Models.Film)">
+            <summary>
+            Add new film
+            </summary>
+            <response code="409">Already exists</response>
+        </member>
+        <member name="M:api.testing.Controllers.FilmsController.GetAll">
+            <summary>
+            Get all available films
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:api.testing.Controllers.FilmsController.Get(System.Int32)">
+            <summary>
+            Get film by id
+            </summary>
+            <response code="404">Film not found</response>
+        </member>
+        <member name="M:api.testing.Controllers.FilmsController.Find(System.String)">
+            <summary>
+            Find films by title
+            </summary>
+        </member>
+        <member name="M:api.testing.Controllers.FilmsController.Assign(api.testing.Models.Assignment)">
+            <summary>
+            Assign employee to film
+            </summary>
+            <response code="404">Employee not found, Film not found</response>
+            <response code="409">Assignment already exists</response>
+        </member>
+        <member name="M:api.testing.Controllers.FilmsController.GetFullReport(api.testing.Models.FilmsFilter)">
+            <summary>
+            Get full films report
+            </summary>
+            <response code="400">Invalid filter</response>
         </member>
     </members>
 </doc>

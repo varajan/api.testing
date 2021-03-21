@@ -43,7 +43,7 @@ namespace api.testing.Controllers
         [Route("get")]
         public ActionResult Get(string name)
         {
-            if (!Contacts.Exists(name)) NotFound($"Contact with '{name}' was not found");
+            if (!Contacts.Exists(name)) return NotFound($"Contact with '{name}' was not found");
 
             return Ok(Contacts.Items.First(x => x.Name == name.Trim()));
         }
@@ -58,8 +58,8 @@ namespace api.testing.Controllers
         [Route("edit")]
         public ActionResult Edit(ContactEdit contact)
         {
-            if (!Contacts.Exists(contact.Name)) NotFound($"Contact with '{contact.Name}' was not found");
-            if (Contacts.Exists(contact.NewName)) Conflict($"Contact with '{contact.NewName}' was found");
+            if (!Contacts.Exists(contact.Name)) return NotFound($"Contact with '{contact.Name}' was not found");
+            if (Contacts.Exists(contact.NewName)) return Conflict($"Contact with '{contact.NewName}' was found");
 
             Contacts.Delete(contact.Name);
 
@@ -75,8 +75,8 @@ namespace api.testing.Controllers
         [Route("delete")]
         public ActionResult Delete([FromBody] string name)
         {
-            if (string.IsNullOrEmpty(name)) BadRequest("Name is required");
-            if (!Contacts.Exists(name)) NotFound($"Contact with '{name}' was not found");
+            if (string.IsNullOrEmpty(name)) return BadRequest("Name is required");
+            if (!Contacts.Exists(name)) return NotFound($"Contact with '{name}' was not found");
 
             Contacts.Delete(name);
 

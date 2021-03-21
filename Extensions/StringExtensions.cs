@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace api.testing.Extensions
@@ -26,6 +27,9 @@ namespace api.testing.Extensions
 
         public static bool IsValidEmail(this string email) => new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").IsMatch(email);
 
+        public static T ParseEnum<T>(this string value) => (T) Enum.Parse(typeof(T), value, true);
+
         public static int ToInt(this string number) => int.Parse(number);
+        public static decimal ToDecimal(this string number) => decimal.Parse(number, CultureInfo.InvariantCulture);
     }
 }
