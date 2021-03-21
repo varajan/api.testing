@@ -20,6 +20,7 @@ namespace api.testing.Controllers
         [Route("add")]
         public ActionResult Add(Film film)
         {
+            if (!Request.IsAuthorized()) return Unauthorized();
             if (Films.Exists(film.Title)) return Conflict($"'{film.Title}' film already exists");
             if (film.Year < 1900) return BadRequest("Invalid year");
             if (film.Year > DateTime.Today.Year) return BadRequest("Invalid year");
@@ -36,6 +37,7 @@ namespace api.testing.Controllers
         [Route("deleteAll")]
         public ActionResult Delete()
         {
+            if (!Request.IsAuthorized()) return Unauthorized();
             Films.DeleteAll();
 
             return Ok("Ok");
@@ -47,7 +49,12 @@ namespace api.testing.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("getAll")]
-        public ActionResult<IEnumerable<Film>> GetAll() => Ok(Films.Items);
+        public ActionResult<IEnumerable<Film>> GetAll()
+        {
+            if (!Request.IsAuthorized()) return Unauthorized();
+
+            return Ok(Films.Items);
+        }
 
         /// <summary>
         /// Get film by id
@@ -57,6 +64,7 @@ namespace api.testing.Controllers
         [Route("get")]
         public ActionResult<Film> Get(int id)
         {
+            if (!Request.IsAuthorized()) return Unauthorized();
             if (!Films.Exists(id)) return NotFound($"Film '{id}' not found");
 
             return Ok(Films.Get(id));
@@ -67,8 +75,12 @@ namespace api.testing.Controllers
         /// </summary>
         [HttpGet]
         [Route("find")]
-        public ActionResult<IEnumerable<Film>> Find(string title) =>
-            Ok(Films.Items.Where(x => x.Title.ContainsIgnoreCase(title)));
+        public ActionResult<IEnumerable<Film>> Find(string title)
+        {
+            if (!Request.IsAuthorized()) return Unauthorized();
+
+            return Ok(Films.Items.Where(x => x.Title.ContainsIgnoreCase(title)));
+        }
 
         /// <summary>
         /// Assign employee to film
@@ -79,6 +91,7 @@ namespace api.testing.Controllers
         [Route("assign")]
         public ActionResult Assign(Assignment model)
         {
+            if (!Request.IsAuthorized()) return Unauthorized();
             if (!Films.Exists(model.FilmId)) return NotFound($"Film with {model.FilmId} not found");
             if (!Films.Exists(model.EmployeeId)) return NotFound($"Employee with {model.EmployeeId} not found");
             if (Assignments.Exists(model)) return Conflict("Assignment already exists");
@@ -96,6 +109,7 @@ namespace api.testing.Controllers
         [Route("full")]
         public ActionResult<FilmsFullReport> GetFullReport(FilmsFilter filter)
         {
+            if (!Request.IsAuthorized()) return Unauthorized();
             if (filter.FromYear.HasValue && filter.ToYear.HasValue && filter.FromYear > filter.ToYear) return BadRequest("FromYear is greater than ToYear");
 
             var films = Films.Items

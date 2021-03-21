@@ -31,7 +31,7 @@ namespace api.testing.DataBase
                 cmd.ExecuteNonQuery();
             }
             catch (Exception e) { throw e; }
-            //c atch { /* ignore */ }
+            //catch { /* ignore */ }
         }
 
         public static string GetValue(string sql)

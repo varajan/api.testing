@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using api.testing.DataBase;
+using api.testing.Extensions;
 using api.testing.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace api.testing.Controllers
         [Route("add")]
         public ActionResult Add(Employee employee)
         {
+            if (!Request.IsAuthorized()) return Unauthorized();
             if (Employees.Exists(employee.Name)) return Conflict($"'{employee.Name}' employee already exists");
 
             Employees.Add(employee);
@@ -31,6 +33,8 @@ namespace api.testing.Controllers
         [Route("deleteAll")]
         public ActionResult Delete()
         {
+            if (!Request.IsAuthorized()) return Unauthorized();
+
             Employees.DeleteAll();
 
             return Ok("Ok");
@@ -44,6 +48,7 @@ namespace api.testing.Controllers
         [Route("delete")]
         public ActionResult Delete(Employee employee)
         {
+            if (!Request.IsAuthorized()) return Unauthorized();
             if (!Employees.Exists(employee.ID)) return NotFound("Employee not fond");
             if (!Employees.Exists(employee.Name)) return NotFound("Employee not fond");
 
@@ -60,6 +65,8 @@ namespace api.testing.Controllers
         [Route("getAll")]
         public ActionResult<IEnumerable<Employee>> GetAll()
         {
+            if (!Request.IsAuthorized()) return Unauthorized();
+
             return Ok(Employees.Items);
         }
 
@@ -71,6 +78,7 @@ namespace api.testing.Controllers
         [Route("get")]
         public ActionResult<Employee> Get(int id)
         {
+            if (!Request.IsAuthorized()) return Unauthorized();
             if (!Employees.Exists(id)) return NotFound($"Employee '{id}' not found");
 
             return Ok(Employees.Get(id));
@@ -84,6 +92,7 @@ namespace api.testing.Controllers
         [Route("find")]
         public ActionResult<Employee> Find(string name)
         {
+            if (!Request.IsAuthorized()) return Unauthorized();
             if (!Employees.Exists(name)) return NotFound($"Employee '{name}' not found");
 
             return Ok(Employees.Get(name));
@@ -98,6 +107,7 @@ namespace api.testing.Controllers
         [Route("assign")]
         public ActionResult Assign(Assignment model)
         {
+            if (!Request.IsAuthorized()) return Unauthorized();
             if (!Films.Exists(model.FilmId)) return NotFound($"Film with {model.FilmId} not found");
             if (!Films.Exists(model.EmployeeId)) return NotFound($"Employee with {model.EmployeeId} not found");
             if (Assignments.Exists(model)) return Conflict("Assignment already exists");
