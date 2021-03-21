@@ -12,6 +12,9 @@ namespace api.testing.Controllers
     [Route("[controller]")]
     public class ContactsController : ControllerBase
     {
+        /// <summary>
+        /// Retrieve contacts (all, or filtered)
+        /// </summary>
         [HttpGet]
         [Route("filter")]
         public IEnumerable<Contact> Filter(string filter) =>
@@ -20,6 +23,9 @@ namespace api.testing.Controllers
                 || i.Email.ContainsIgnoreCase(filter)
                 || i.Phone.Replace("-", "").Contains(filter.Replace("-", "")));
 
+        /// <summary>
+        /// Delete all contacts
+        /// </summary>
         [HttpDelete]
         [Route("deleteAll")]
         public ActionResult DeleteAll()
@@ -29,6 +35,10 @@ namespace api.testing.Controllers
             return Ok("Ok");
         }
 
+        /// <summary>
+        /// Retrieve contact by name
+        /// </summary>
+        /// <response code="404">Contact not found</response>
         [HttpGet]
         [Route("get")]
         public ActionResult Get(string name)
@@ -38,6 +48,12 @@ namespace api.testing.Controllers
             return Ok(Contacts.Items.First(x => x.Name == name.Trim()));
         }
 
+        /// <summary>
+        /// Update contact details
+        /// </summary>
+        /// <response code="400">Name length is not in range: 3-30 symbols, Invalid email address, Invalid phone number</response>
+        /// <response code="404">Contact not found</response>
+        /// <response code="409">Contact with new name already exists</response>
         [HttpPut]
         [Route("edit")]
         public ActionResult Edit(ContactEdit contact)
@@ -47,9 +63,14 @@ namespace api.testing.Controllers
 
             Contacts.Delete(contact.Name);
 
-            return Add(contact.Contact);
+            return Add(new Contact { Email = contact.Email, Name = contact.NewName, Phone = contact.Phone });
         }
 
+        /// <summary>
+        /// Delete contact by name
+        /// </summary>
+        /// <response code="404">Contact not found</response>
+        /// <response code="400">Contact name was not provided</response>
         [HttpDelete]
         [Route("delete")]
         public ActionResult Delete([FromBody] string name)
@@ -62,11 +83,18 @@ namespace api.testing.Controllers
             return Ok("Ok");
         }
 
+        /// <summary>
+        /// Add contact
+        /// </summary>
+        /// <response code="400">Name length is not in range: 3-30 symbols, Invalid email address, Invalid phone number</response>
+        /// <response code="404">Contact not found</response>
+        /// <response code="409">Contact with provided name already exists</response>
         [HttpPost]
         [Route("add")]
         public ActionResult Add(Contact contact)
         {
-            if (contact.Name.Trim().Length == 0) return BadRequest("Name cannot be empty");
+            if (contact.Name.Trim().Length < 3) return BadRequest("Name should be at least 3 symbols");
+            if (contact.Name.Trim().Length > 30) return BadRequest("Name should be maximum 30 symbols");
             if (!contact.Email.IsValidEmail()) return BadRequest("Invalid email");
             if (!Regex.IsMatch(contact.Phone, Settings.PhonePattern)) return BadRequest("Invalid phone number");
             if (Contacts.Exists(contact.Name)) return Conflict($"Contact with '{contact.Name}' already exists");

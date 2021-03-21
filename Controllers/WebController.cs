@@ -3,6 +3,7 @@
 namespace api.testing.Controllers
 {
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("[controller]")]
     public class WebController : ControllerBase
     {

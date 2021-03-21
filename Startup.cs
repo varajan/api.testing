@@ -1,3 +1,4 @@
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +20,7 @@ namespace api.testing
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c => c.IncludeXmlComments(Path.Combine(System.AppContext.BaseDirectory, "api.testing.xml")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

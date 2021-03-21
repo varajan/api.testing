@@ -6,7 +6,5 @@
         public string NewName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-
-        public Contact Contact => new Contact {Email = Email, Name = NewName, Phone = Phone};
     }
 }

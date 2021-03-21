@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>api.testing</name>
+    </assembly>
+    <members>
+        <member name="M:api.testing.Controllers.ContactsController.Filter(System.String)">
+            <summary>
+            Retrieve contacts (all, or filtered)
+            </summary>
+        </member>
+        <member name="M:api.testing.Controllers.ContactsController.DeleteAll">
+            <summary>
+            Delete all contacts
+            </summary>
+        </member>
+        <member name="M:api.testing.Controllers.ContactsController.Get(System.String)">
+            <summary>
+            Retrieve contact by name
+            </summary>
+            <response code="404">Contact not found</response>
+        </member>
+        <member name="M:api.testing.Controllers.ContactsController.Edit(api.testing.Models.ContactEdit)">
+            <summary>
+            Update contact details
+            </summary>
+            <response code="400">Name length is not in range: 3-30 symbols</response>
+            <response code="400">Invalid email address</response>
+            <response code="400">Invalid phone number</response>
+            <response code="404">Contact not found</response>
+            <response code="409">Contact with new name already exists</response>
+        </member>
+        <member name="M:api.testing.Controllers.ContactsController.Delete(System.String)">
+            <summary>
+            Delete contact by name
+            </summary>
+            <response code="404">Contact not found</response>
+            <response code="400">Contact name was not provided</response>
+        </member>
+        <member name="M:api.testing.Controllers.ContactsController.Add(api.testing.Models.Contact)">
+            <summary>
+            Add contact
+            </summary>
+            <response code="400">Name length is not in range: 3-30 symbols</response>
+            <response code="400">Invalid email address</response>
+            <response code="400">Invalid phone number</response>
+            <response code="404">Contact not found</response>
+            <response code="409">Contact with provided name already exists</response>
+        </member>
+    </members>
+</doc>
