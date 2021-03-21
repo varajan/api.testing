@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace api.testing.Extensions
 {
-    public static class BasicAuthorizationExtensions
+    public static class AuthorizationExtensions
     {
         public static bool IsAuthorized(this HttpRequest request)
         {
