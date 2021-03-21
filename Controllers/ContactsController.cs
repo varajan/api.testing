@@ -13,10 +13,6 @@ namespace api.testing.Controllers
     public class ContactsController : ControllerBase
     {
         [HttpGet]
-        [Route("all")]
-        public IEnumerable<Contact> Get() => Contacts.Items;
-
-        [HttpGet]
         [Route("filter")]
         public IEnumerable<Contact> Filter(string filter) =>
             Contacts.Items.Where(i =>
@@ -24,7 +20,7 @@ namespace api.testing.Controllers
                 || i.Email.ContainsIgnoreCase(filter)
                 || i.Phone.Replace("-", "").Contains(filter.Replace("-", "")));
 
-        [HttpPost]
+        [HttpDelete]
         [Route("deleteAll")]
         public ActionResult DeleteAll()
         {
@@ -42,7 +38,7 @@ namespace api.testing.Controllers
             return Ok(Contacts.Items.First(x => x.Name == name.Trim()));
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("edit")]
         public ActionResult Edit(ContactEdit contact)
         {
@@ -54,7 +50,7 @@ namespace api.testing.Controllers
             return Add(contact.Contact);
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("delete")]
         public ActionResult Delete([FromBody] string name)
         {

@@ -45,21 +45,6 @@
         });
     }
 
-    function loadContacts() {
-        $.ajax({
-            type: 'GET',
-            url: 'contacts/all',
-            dataType: 'json',
-            success: function (response) {
-                clearTable();
-
-                response.forEach(function (contact) {
-                    appendContact(contact);
-                });
-            }
-        });
-    }
-
     function add() {
         var name = prompt('Name');
         var phone = prompt('Phone');
@@ -76,7 +61,7 @@
                 'Content-Type': 'application/json' 
             },
             success: function (response) {
-                loadContacts();
+                filter();
             },
             error: function(response) {
                 alert(response.responseText);
@@ -121,7 +106,7 @@
                 var contact = { 'Name': name, 'NewName': newName, 'Phone': phone, 'Email': email };
 
                 $.ajax({
-                    type: 'POST',
+                    type: 'PUT',
                     url: 'contacts/edit',
                     data: JSON.stringify(contact),
                     dataType: 'json',
@@ -130,7 +115,7 @@
                         'Content-Type': 'application/json' 
                     },
                     success: function (response) {
-                        loadContacts();
+                        filter();
                     },
                     error: function(response) {
                         alert(response.responseText);
@@ -147,7 +132,7 @@
     function deleteContact(name) {
         if (confirm('Are you sure you want to delete ' + name + '?')) {
             $.ajax({
-                type: 'POST',
+                type: 'DELETE',
                 url: 'contacts/delete',
                 headers: {
                     'Accept': 'application/json',
@@ -156,7 +141,7 @@
                 data: JSON.stringify(name),
                 dataType: 'json',
                 success: function (response) {
-                    loadContacts();
+                    filter();
                 },
                 error: function(response) {
                     alert(response.responseText);
@@ -171,7 +156,7 @@
 
     function clearContacts() {
         $.ajax({
-            type: 'POST',
+            type: 'DELETE',
             url: 'contacts/deleteAll',
             dataType: 'json',
             headers: {
@@ -188,6 +173,6 @@
     }
 
     window.onload = function() {
-        loadContacts();
+        filter();
     }
 </script>
