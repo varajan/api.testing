@@ -47,7 +47,6 @@
             <summary>
             Add new employee
             </summary>
-            <response code="401">Unauthorized</response>
             <response code="409">Already exists</response>
         </member>
         <member name="M:api.testing.Controllers.EmployeesController.Delete">
