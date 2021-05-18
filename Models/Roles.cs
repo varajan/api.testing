@@ -1,5 +1,8 @@
-﻿namespace api.testing.Models
+﻿using System.Text.Json.Serialization;
+
+namespace api.testing.Models
 {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum Roles
     {
         Actor = 0,
